@@ -1,0 +1,129 @@
+{% extends 'base/base.html'%}
+{% block title %} Index  {% endblock %}
+ 
+{% block content %}
+
+{% from "_macro.html" import render_field %}
+
+	<div class="container">
+     <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+           
+            <br>
+            <br>
+             {% if Persona == null %}
+            <form name="sentMessage" id="contactForm" method="POST">
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(form.strNombre, class='form-control', maxlength="40" ) }}
+
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(form.strApaterno, class='form-control', maxlength="40" ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(form.strAmaterno, class='form-control', maxlength="40" ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(form.dtefechaNacimiento, class='form-control', type="date" ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                   <label for="exampleFormControlSelect1">Sexo</label>
+                   <select class="form-control" id="exampleFormControlSelect1" name="idSexo" >
+                      {% for row in Sexo %}
+                     <option value="{{ row.0 }}">{{ row.1 }}</option>
+                      {% endfor %}                      
+                   </select>
+                 </div>
+
+                <br>
+                <div id="success"></div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-info">Aceptar</button>
+                    
+                        <a href="/" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+          {% endif %}   
+
+        {% if Persona != null %}
+          {% for row in Persona %}
+            <form name="sentMessage" id="contactForm" method="POST">
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls" >
+                         {{ render_field(form.strNombre, class='form-control', value=row.1, maxlength="40") }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(form.strApaterno, class='form-control', value=row.2, maxlength="40" )}}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(form.strAmaterno, class='form-control', value=row.3 , maxlength="40" )}}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(form.dtefechaNacimiento, class='form-control', type="date", value=row.4 )}}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                   <label for="exampleFormControlSelect1">Sexo</label>
+                   <select class="form-control" id="exampleFormControlSelect1" name="idSexo" >
+                    {% if row.5 == 1 %}
+                      <option value="{{ 1 }}">HOMBRE</option>
+                      <option value="{{ 2 }}">MUJER</option>
+                    {% endif %}  
+                    {% if row.5 == 2 %}
+                      <option value="{{ 2 }}">MUJER</option>
+                      <option value="{{ 1 }}">HOMBRE</option>
+                    {% endif %}                     
+                   </select>
+                 </div>
+
+                <br>
+                <div id="success"></div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-info">Aceptar</button>
+                    
+                        <a href="/" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+          {% endif %}   
+          
+          </div>
+      </div>
+  </div>
+
+    <hr>
+{% endblock %} 
+
+

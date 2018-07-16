@@ -1,0 +1,56 @@
+
+{% extends 'layout.html' %}
+
+{% block title %} Home {% endblock %}
+{% block body %} 
+
+
+<div class="container">
+   <div class="starter-template">
+      <h1>Persona</h1>
+      <a href="/create" class="btn btn-info">Agregar</a>
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <td>Nombre</td>
+                <td>Apellido Paterno</td>
+                 <td>Apellido Materno</td>
+                  <td>Fecha de Nacimiento</td>
+                  <td>Sexo</td>
+               <td>Botones</td>
+            </tr>
+         </thead>
+         <tbody>
+         {% for row in Persona %}
+            <tr>
+               <td>{{ row.1 }}</td>
+               <td>{{ row.2 }}</td>
+               <td>{{ row.3 }}</td>
+               <td>{{ row.4 }}</td>          
+                 {% if row.5 == 1 %}
+                   <td>HOMBRE</td>
+                 {% endif %}         
+                  {% if row.5 == 2 %}
+                   <td>MUJER</td>
+                 {% endif %}  
+               <td>
+                 <a href="/update/{{ row.0 }}" class="btn btn-warning btn-xs">Editar</a>
+                  <a href="/hapus/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('¿Desea eliminar el Registros?')">Eliminar</a>
+                   <a href="/pdf/{{ row.0 }}/{{ row.1 }}/{{ row.2 }}/{{ row.3 }}/{{ row.4 }}/{{ row.5 }}" class="btn btn-success btn-xs">PDF</a>
+               </td>
+            </tr>
+{% else %}
+            <tr>
+               <td colspan="5">No hay Registros</td>
+            </tr>
+{% endfor %}
+         </tbody>
+      </table>
+   </div>
+</div>
+
+<!-- Modal -->
+<!-- /.container -->
+
+
+{% endblock %}
