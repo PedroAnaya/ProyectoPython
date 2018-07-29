@@ -3,11 +3,13 @@ from flask import request
 from flask_mysqldb import MySQL
 from flask import make_response
 from raven.contrib.flask import Sentry
+from flask import Flask, flash, redirect, request, session, abort
+import os
 import form
-from io import StringIO
+import RegistroVendedor
 from io import BytesIO
+from flask import make_response
 from reportlab.pdfgen import canvas
-
 
 app = Flask(__name__)
 
@@ -26,101 +28,124 @@ if not app.debug:
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'pedro0319'
-app.config['MYSQL_DB'] = 'Prueba'
+app.config['MYSQL_DB'] = 'CopiaAmazon'
 mysql = MySQL(app)
 
 @app.route('/')
 def index():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Persona")
+    cur.execute("SELECT * FROM Vendedor")
     rv = cur.fetchall()
     cur.close()
-    cur1 = mysql.connection.cursor()
-    cur1.execute("SELECT * FROM Sexo")
-    rv2 = cur1.fetchall()
-    cur1.close()
-    return render_template('home.html', Persona=rv, Sexo=rv2)
+    return render_template('home.html', Vendedor=rv)
 
+@app.route('/Inicio', methods = ['GET', 'POST'])
+def Inicio():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Vendedor")
+    rv = cur.fetchall()
+    cur.close()
+    return render_template('home.html', Vendedor=rv)
+
+@app.route('/InicioVendedor', methods = ['GET', 'POST'])
+def InicioVendedor():  
+    idVendedor = request.cookies.get('idVendedorReg')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM Vendedor WHERE id=%s", (idVendedor,))
+    rv = cur.fetchall()
+    cur.close()
+    return render_template('InicioVendedor.html', Vendedor=rv)  
+
+@app.route('/decision', methods = ['GET', 'POST'])
+def decision():
+    return render_template('prelogin.html')
 
 @app.route('/create', methods = ['GET', 'POST'])
 def create():
-    cur1 = mysql.connection.cursor()
-    cur1.execute("SELECT * FROM Sexo")
-    rv2 = cur1.fetchall()
-    cur1.close()
-    comment_form = form.CommentForm(request.form)
-    if request.method == 'POST' and comment_form.validate():       
-        strNombre = request.form['strNombre']
-        strApaterno = request.form['strApaterno']
-        strAmaterno = request.form['strAmaterno']
-        idSexo = request.form['idSexo']
-        dtefechaNacimiento =request.form['dtefechaNacimiento']
+    comment_form = RegistroVendedor.CommentForm(request.form)
+    if request.method == 'POST' and comment_form.validate():  
+        strRazonSocial = request.form['strRazonSocial']
+        strRFC = request.form['strRFC']
+        strTelefono = request.form['strTelefono']
+        strCorreo = request.form['strCorreo']
+        strDireccion =request.form['strDireccion']
+        strSitioWeb =request.form['strSitioWeb']
+        strContraseña =request.form['strContraseña']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO Persona (strNombre,strApaterno,strAmaterno,dtefechaNacimiento,idSexo) VALUES (%s,%s,%s,%s,%s) ",(strNombre,strApaterno,strAmaterno,dtefechaNacimiento,idSexo))
-        mysql.connection.commit()       
-        return redirect(url_for('index'))
+        cur.execute("INSERT INTO Vendedor (strRazonSocial,strRFC,strTelefono,strCorreo,strDireccion,strSitioWeb) VALUES (%s,%s,%s,%s,%s,%s) ",
+            (strRazonSocial,strRFC,strTelefono,strCorreo,strDireccion,strSitioWeb))
+        mysql.connection.commit() 
 
-    title = "APP Python"   
-    return render_template('index.html',title = title, form = comment_form, Sexo=rv2)
+        cur.close()
+        cur1 = mysql.connection.cursor()
+        cur1.execute("SELECT * FROM Vendedor WHERE strRFC=%s", (strRFC,))
+        rv = cur1.fetchall()
+        cur1.close()
+        idVendedor = rv[0]
+        idven = idVendedor[0]
+        valor = ''
+        valor +=str(idven)
+                    
 
-@app.route('/update/<string:id_data>', methods = ['GET', 'POST'])
-def update(id_data):
+        cur2 = mysql.connection.cursor()
+        cur2.execute("INSERT INTO Usuario (strCorreo,strContraseña,idVendedor) VALUES (%s,%s,%s) ",
+            (strCorreo,strContraseña,idven))
+        mysql.connection.commit() 
+        cur2.close()
+        response = make_response(redirect(url_for('InicioVendedor')))
+        response.set_cookie('idVendedorReg',valor)
+        return response
+
+    title = "APP Python"     
+    return render_template('RegistroVen.html',title = title, RegistroVendedor = comment_form)
+
+@app.route('/log', methods = ['GET', 'POST'])
+def log():
+    return render_template('loginDes.html')
+ 
+@app.route('/InicioSecion', methods = ['GET', 'POST'])
+def InicioSecion():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        cur = mysql.connection.cursor()
+        idVendedor = request.cookies.get('idVendedorReg')
+        cur.execute("SELECT * FROM Vendedor WHERE id=%s", (idVendedor,))
+        rv = cur.fetchall()
+        cur.close()
+        return render_template('InicioVendedor.html', Vendedor=rv)
+
+@app.route('/login', methods=['POST'])
+def do_admin_login():
+    usuario = request.form['username']
+    contrasena = request.form['password']
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Persona WHERE id=%s", (id_data,))
+    cur.execute("SELECT * FROM Usuario WHERE strCorreo=%s and strContraseña=%s ", (usuario,contrasena,))
     rv = cur.fetchall()
     cur.close()
-    comment_form = form.CommentForm(request.form)
-    if request.method == 'POST' and comment_form.validate():   
-        id_data1 = id_data
-        strNombre = request.form['strNombre']
-        strApaterno = request.form['strApaterno']
-        strAmaterno = request.form['strAmaterno']
-        dtefechaNacimiento = request.form['dtefechaNacimiento']
-        idSexo = request.form['idSexo']
-        cur = mysql.connection.cursor()
-        cur.execute("UPDATE Persona SET strNombre=%s, strApaterno=%s, strAmaterno=%s, dtefechaNacimiento=%s, idSexo=%s WHERE id=%s", (strNombre,strApaterno,strAmaterno,dtefechaNacimiento,idSexo,id_data1,))
-        mysql.connection.commit()
-        return redirect(url_for('index'))
-    title = "APP Python"   
-    return render_template('index.html',title = title, form = comment_form, Persona=rv)   
+    if rv:  
+        session['logged_in'] = True
+        idVendedor = rv[0]
+        idven = idVendedor[3]
+        valor = ''
+        valor +=str(idven)
+    else:       
+        valor = '0'
+        session['logged_in'] = False
 
-@app.route('/hapus/<string:id_data>', methods=["GET"])
-def hapus(id_data):
-    cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM Persona WHERE id=%s", (id_data,))
-    mysql.connection.commit()
-    return redirect(url_for('index'))
-
-@app.route('/cookie')
-def cookie():
-    reponse = make_response( render_template('cookie.html') )
-    reponse.set_cookie('custome_cookie', 'Pedro')
-    return reponse
-
-@app.route('/pdf/<string:id_data>/<string:strNombre>/<string:strApaterno>/<string:strAmaterno>/<string:dtefechaNacimiento>/<string:idSexo>', methods=["GET"])
-def pdf(id_data,strNombre,strApaterno,strAmaterno,dtefechaNacimiento,idSexo):
-    output = BytesIO()
-
-    p = canvas.Canvas(output)
-    p.drawString(100, 800, 'Nombre: '+strNombre)
-    p.drawString(100, 750, 'Apellido Paterno: '+strApaterno)
-    p.drawString(100, 700, 'Apellido Materno: '+strAmaterno)
-    p.drawString(100, 650, 'Fecha de Nacimiento: '+dtefechaNacimiento)
-
-    if idSexo == '1':
-        p.drawString(100, 600, 'Sexo: HOMBRE')
-    else:  
-        p.drawString(100, 600, 'Sexo: MUJER')
-    p.showPage()
-    p.save()
-    
-    pdf_out = output.getvalue()
-    output.close()
-
-    response = make_response(pdf_out)
-    response.headers['Content-Disposition'] = "attachment; filename='archivo.pdf"
-    response.mimetype = 'application/pdf'
+    response = make_response(redirect(url_for('InicioSecion')))
+    response.set_cookie('idVendedorReg',valor)    
     return response
 
+@app.route("/logout")
+def logout():
+    session['logged_in'] = False
+    valor = '0'
+    response = make_response(redirect(url_for('index')))
+    response.set_cookie('idVendedorReg',valor)
+    return response
+
+
 if __name__ == '__main__':
+    app.secret_key = os.urandom(12)
     app.run(debug=True)

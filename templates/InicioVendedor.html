@@ -1,0 +1,25 @@
+{% extends 'base/baseVendedor.html'%}
+{% block title %} Index  {% endblock %} 
+
+
+{% from "_macro.html" import render_field %}
+
+{% block body %} 
+   
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                     {% for row in Vendedor %}
+                    <h1> Bienbenid@ {{ row.1 }} </h1>
+                    <p>[Listo para empesar a vender]</p>
+                       {% endfor %}
+                </div>
+            </div>
+        </div>
+    </header>
+<br>
+	<br>
+	<br> 
+
+{% endblock %} 

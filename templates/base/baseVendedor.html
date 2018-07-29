@@ -7,7 +7,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
@@ -15,10 +15,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Akronim">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="static/css/header.css" rel="stylesheet" >
+
     <title> {% block title %} {% endblock %}</title>
 </head>
 <body>
-{% include 'includes/_navbar.html' %}
+{% include 'includes/_navbarRegistroVendedor.html' %}
 
 
     {% with messages = get_flashed_messages() %}
@@ -30,8 +31,9 @@
                 {% endfor %}
         {% endif %}
     {% endwith%}
-  {% block body %}
-   {% endblock %}      
+  {% block body %} 
+
+  {% endblock %}      
     <footer>
         <div class="container">
             <div class="row">

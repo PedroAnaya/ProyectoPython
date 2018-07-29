@@ -1,0 +1,19 @@
+{% extends 'base/baseVendedor.html'%}
+{% block title %} Index  {% endblock %} 
+{% block content %}
+{% from "_macro.html" import render_field %}
+
+
+<div class="form-group">
+   
+    {% for row in Vendedor %}
+		<input type="text" class="form-control" name="strRazonSocial" value="{{ row.1 }}">
+     {% endfor %}
+
+
+</div>
+
+
+{% endblock %} 
+
+

@@ -1,0 +1,95 @@
+header {
+  height:80vh;
+  background-image:url('https://www.muycanal.com/wp-content/uploads/2018/01/compras-en-linea.jpg');
+  background-size:cover;
+  background-position:center center;
+  background-attachment:fixed;
+  font-family:'Akronim';
+}
+
+@media (max-width:767px) {
+  header {
+    background-attachment:inherit;
+  }
+}
+
+header .row {
+  margin-top:15vh;
+}
+
+header h1 {
+  text-align:center;
+  color:#fff;
+  text-shadow:1px 1px 1px #000;
+  font-size:91px;
+}
+
+@media (max-width:767px) {
+  header h1 {
+    text-align:center;
+    color:#fff;
+    text-shadow:1px 1px 1px #000;
+    font-size:61px;
+  }
+}
+
+header p {
+  text-align:center;
+  color:#fff;
+  text-shadow:1px 1px 1px #000;
+  font-size:41px;
+  letter-spacing:5px;
+  margin-bottom:50px;
+}
+
+@media (max-width:767px) {
+  header p {
+    text-align:center;
+    color:#fff;
+    text-shadow:1px 1px 1px #000;
+    font-size:27px;
+    letter-spacing:5px;
+    margin-bottom:50px;
+  }
+}
+
+.navbar-default {
+  background-image:none;
+  background-image:none;
+  background-image:none;
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff8f8f8', GradientType=0);
+  filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  border-radius:0px;
+  -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 1px 5px rgba(0,0,0,.075);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 1px 5px rgba(0,0,0,.075);
+  background:rgba(0,0,0,0.25);
+}
+
+.navbar-brand .material-icons {
+  color:#fff;
+  text-shadow:1px 1px 1px #000;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color:#fff;
+  text-shadow:1px 1px 1px #000;
+}
+
+header .btn {
+  font-size:21px;
+  background:rgba(0,0,0,0.247059);
+  letter-spacing:3px;
+}
+
+@media (max-width:767px) {
+  header .btn {
+    font-size:21px;
+    background:rgba(0,0,0,0.247059);
+    letter-spacing:3px;
+    margin-bottom:14px;
+  }
+}
+
+
+

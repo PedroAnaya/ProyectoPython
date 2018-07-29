@@ -2,61 +2,68 @@
 {% extends 'base/base.html'%}
 {% block title %} Home  {% endblock %}
 {% block body %} 
-
 {% from "_macro.html" import render_field %}
-
+ <br>
+    <br>
 	<div class="container">
      <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
            
             <br>
             <br>
-             {% if Persona == null %}
+             {% if Vendedor == null %}
             <form name="sentMessage" id="contactForm" method="POST">
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
-                         {{ render_field(form.strNombre, class='form-control', maxlength="40" ) }}
+                         {{ render_field(RegistroVendedor.strRazonSocial, class='form-control', maxlength="100" ) }}
 
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroVendedor.strRFC, class='form-control', maxlength="13" ) }}
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
 
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
-                         {{ render_field(form.strApaterno, class='form-control', maxlength="40" ) }}
-                        <p class="help-block text-danger"></p>
-                    </div>
-                </div>
-
-                <div class="row control-group">
-                    <div class="form-group col-xs-12 floating-label-form-group controls">
-                         {{ render_field(form.strAmaterno, class='form-control', maxlength="40" ) }}
+                         {{ render_field(RegistroVendedor.strTelefono, class='form-control', maxlength="10" ) }}
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
-                         {{ render_field(form.dtefechaNacimiento, class='form-control', type="date" ) }}
+                         {{ render_field(RegistroVendedor.strCorreo, class='form-control', maxlength="50"  ) }}
                         <p class="help-block text-danger"></p>
                     </div>
-                </div>
-
-                <div class="form-group">
-                   <label for="exampleFormControlSelect1">Sexo</label>
-                   <select class="form-control" id="exampleFormControlSelect1" name="idSexo" >
-                      {% for row in Sexo %}
-                     <option value="{{ row.0 }}">{{ row.1 }}</option>
-                      {% endfor %}                      
-                   </select>
-                 </div>
-
+                </div>               
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroVendedor.strDireccion, class='form-control', maxlength="250"  ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>   
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroVendedor.strSitioWeb, class='form-control', maxlength="250"  ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div> 
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroVendedor.strContraseña, class='form-control', maxlength="10", type="password" ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div> 
                 <br>
                 <div id="success"></div>
                 <div class="row">
                     <div class="form-group col-xs-12">
                         <button type="submit" class="btn btn-info">Aceptar</button>
                     
-                        <a href="/" class="btn btn-danger">Cancelar</a>
+                        <a href="/decision" class="btn btn-danger">Cancelar</a>
                     </div>
                 </div>
             </form>
@@ -67,52 +74,43 @@
             <form name="sentMessage" id="contactForm" method="POST">
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls" >
-                         {{ render_field(form.strNombre, class='form-control', value=row.1, maxlength="40") }}
+                         {{ render_field(RegistroVendedor.strRazonSocial, class='form-control', value=row.1, maxlength="40") }}
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
 
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
-                         {{ render_field(form.strApaterno, class='form-control', value=row.2, maxlength="40" )}}
+                         {{ render_field(RegistroVendedor.strRFC, class='form-control', value=row.2, maxlength="40" )}}
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
 
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
-                         {{ render_field(form.strAmaterno, class='form-control', value=row.3 , maxlength="40" )}}
+                         {{ render_field(RegistroVendedor.strTelefono, class='form-control', value=row.3 , maxlength="40" )}}
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
-                         {{ render_field(form.dtefechaNacimiento, class='form-control', type="date", value=row.4 )}}
+                         {{ render_field(RegistroVendedor.strCorreo, class='form-control', type="date", maxlength="40" )}}
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
-
-                <div class="form-group">
-                   <label for="exampleFormControlSelect1">Sexo</label>
-                   <select class="form-control" id="exampleFormControlSelect1" name="idSexo" >
-                    {% if row.5 == 1 %}
-                      <option value="{{ 1 }}">HOMBRE</option>
-                      <option value="{{ 2 }}">MUJER</option>
-                    {% endif %}  
-                    {% if row.5 == 2 %}
-                      <option value="{{ 2 }}">MUJER</option>
-                      <option value="{{ 1 }}">HOMBRE</option>
-                    {% endif %}                     
-                   </select>
-                 </div>
-
-                <br>
+                 <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroVendedor.strSitioWeb, class='form-control', maxlength="250"  ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div> 
+                      <br>
                 <div id="success"></div>
                 <div class="row">
                     <div class="form-group col-xs-12">
                         <button type="submit" class="btn btn-info">Aceptar</button>
                     
-                        <a href="/" class="btn btn-danger">Cancelar</a>
+                        <a href="/decision" class="btn btn-danger">Cancelar</a>
                     </div>
                 </div>
             </form>
