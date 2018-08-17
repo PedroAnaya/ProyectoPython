@@ -1,53 +1,99 @@
 
-{% extends 'base/base.html'%}
+{% extends 'base/baseVendedor.html'%}
 {% block title %} Home  {% endblock %}
+
 {% block body %} 
-    <br>
-    <br>
-        <br>
+
+<section class="team">
 <div class="container">
    <div class="starter-template">
-      <h1>Productos</h1>
-      <a href="/create" class="btn btn-info">Agregar</a>
-      <table class="table table-striped">
-         <thead>
-            <tr>
-               <td>Nombre</td>
-                <td>Apellido Paterno</td>
-                 <td>Apellido Materno</td>
-                  <td>Fecha de Nacimiento</td>
-                  <td>Sexo</td>
-               <td>Botones</td>
-            </tr>
-         </thead>
-         <tbody>
-         {% for row in Persona %}
-            <tr>
-               <td>{{ row.1 }}</td>
-               <td>{{ row.2 }}</td>
-               <td>{{ row.3 }}</td>
-               <td>{{ row.4 }}</td>          
-                 {% if row.5 == 1 %}
-                   <td>HOMBRE</td>
-                 {% endif %}         
-                  {% if row.5 == 2 %}
-                   <td>MUJER</td>
-                 {% endif %}  
-               <td>
-                 <a href="/update/{{ row.0 }}" class="btn btn-warning btn-xs">Editar</a>
-                  <a href="/hapus/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('¿Desea eliminar el Registros?')">Eliminar</a>
-                   <a href="/pdf/{{ row.0 }}/{{ row.1 }}/{{ row.2 }}/{{ row.3 }}/{{ row.4 }}/{{ row.5 }}" class="btn btn-success btn-xs">PDF</a>
-               </td>
-            </tr>
-{% else %}
-            <tr>
-               <td colspan="5">No hay Registros</td>
-            </tr>
-{% endfor %}
-         </tbody>
-      </table>
+      <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+
+        <div class="col-lg-12">
+           <h1>Productos</h1>
+      <a href="/createProducto" class="btn btn-info">Agregar</a>
+      <br>
+         <br>
+          <div class="row pt-md">
+            {% for row in Productos %}
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 profile">
+              <div class="img-box">
+                 {% if row.8 != null %}
+                <img src="/{{ row.8 }}" class="img-responsive"/>
+                 {% else %} 
+                 <img src="/static/img/pro.png" class="img-responsive"/> 
+                  {% endif %}                   
+                <ul class="text-center">
+                  <a href="/updateProducto/{{ row.0 }}"><li><i class="glyphicon glyphicon-pencil"></i></li></a>
+                  <a href="/deleteProducto/{{ row.0 }}"><li><i class="glyphicon glyphicon-remove-circle" onclick="return confirm('¿Desea eliminar el Registros?')"></i></li></a>
+                  <a href="/infoProducto/{{ row.0 }}"><li><i class="glyphicon glyphicon-info-sign" ></i></li></a>
+                </ul>
+              </div>
+              <h1>{{ row.2 }}</h1>
+              <p>Precio $ {{ row.3 }}</p>
+              <p>Stock #{{ row.4 }}</p>
+               {% if row.7 == 1 %}
+                   <p>Categoria: Auto</p>
+               {% endif %}    
+               {% if row.7 == 2 %}
+                   <p>Categoria: Bebe</p>
+               {% endif %}  
+               {% if row.7 == 3 %}
+                   <p>Categoria: Niño</p>
+               {% endif %}  
+               {% if row.7 == 4 %}
+                   <p>Categoria: Niña</p>
+               {% endif %}  
+               {% if row.7 == 5 %}
+                   <p>Categoria: Hombre</p>
+               {% endif %}  
+               {% if row.7 == 6 %}
+                   <p>Categoria: Mujer</p>
+               {% endif %}  
+               {% if row.7 == 7 %}
+                   <p>Categoria: Electronicos</p>
+               {% endif %}            
+               {% if row.7 == 8 %}
+                   <p>Categoria: Deportes</p>
+               {% endif %}  
+               {% if row.7 == 9 %}
+                   <p>Categoria: Entretenimiento</p>
+               {% endif %}  
+               {% if row.7 == 10 %}
+                   <p>Categoria: Libros</p>
+               {% endif %}  
+               {% if row.7 == 11 %}
+                   <p>Categoria: Cocina y hogar</p>
+               {% endif %}  
+               {% if row.7 == 12 %}
+                   <p>Categoria: Juegos y jugetes</p>
+               {% endif %}  
+               {% if row.7 == 13 %}
+                   <p>Categoria: Accesosrios</p>
+               {% endif %}  
+               {% if row.7 == 14 %}
+                   <p>Categoria: ciencia e incustria</p>
+               {% endif %}  
+               {% if row.7 == 15 %}
+                   <p>Categoria: Herramientas y cosas para el hogar</p>
+               {% endif %}  
+                 {% if row.7 == 16 %}
+                   <p>Categoria: Otros</p>
+               {% endif %}              
+            </div>
+          {% else %}
+            <br>
+            <br>
+           <hi>No hay registros</hi>
+          {% endfor %}
+          </div>
+        </div>
+      </div>         
+       </div>
    </div>
 </div>
+</section>
 
 <!-- Modal -->
 <!-- /.container -->

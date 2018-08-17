@@ -1,0 +1,55 @@
+
+{% extends 'base/baseCliente.html'%}
+{% block title %} Home  {% endblock %}
+{% block body %} 
+<br>
+<br>
+<br>
+<div class="container">
+   <div class="starter-template">
+      <h1>Compras realizadas</h1>
+      <table class="table table-striped">
+         <thead>
+            <tr>
+                <td>Producto</td>
+                 <td>Cantidad</td>
+                  <td>Comentarios</td>
+                  <td>Estado</td>
+               <td>Botones</td>
+            </tr>
+         </thead>
+         <tbody>
+         {% for row in Compras %}
+            <tr>
+               <td>{{ row.10 }}</td>
+               <td>{{ row.6 }}</td>
+               <td>{{ row.7 }}</td>
+                 {% if row.8 == 1 %}
+                   <td>Pago pendiente</td>
+                 {% endif %}         
+                  {% if row.8 == 2 %}
+                   <td>En envio</td>
+                 {% endif %} 
+                 {% if row.8 == 3 %}
+                   <td>Producto Entregado</td>
+                 {% endif %}  
+               <td>
+                 <a href="/update/{{ row.0 }}" class="btn btn-warning btn-xs">Editar</a>
+                  <a href="/hapus/{{ row.0 }}" class="btn btn-danger btn-xs" >Pago</a>
+                   <a href="/pdf/{{ row.0 }}" class="btn btn-success btn-xs">Detalle de compra</a>
+               </td>
+            </tr>
+{% else %}
+            <tr>
+               <td colspan="5">No hay Registros</td>
+            </tr>
+{% endfor %}
+         </tbody>
+      </table>
+   </div>
+</div>
+
+
+{% endblock %} 
+
+

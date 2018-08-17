@@ -1,0 +1,113 @@
+
+{% extends 'base/base.html'%}
+{% block title %} Home  {% endblock %}
+{% block body %} 
+{% from "_macro.html" import render_field %}
+ <br>
+    <br>
+	<div class="container">
+     <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+           
+            <br>
+            <br>
+             {% if Cliente == null %}
+            <form name="sentMessage" id="contactForm" method="POST">
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strNombre, class='form-control', maxlength="100" ) }}
+
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strTelefono, class='form-control', maxlength="10" ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strCorreo, class='form-control', maxlength="50"  ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>               
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strDireccion, class='form-control', maxlength="250"  ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>   
+
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strContraseña, class='form-control', maxlength="10", type="password" ) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div> 
+                <br>
+                <div id="success"></div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-info">Aceptar</button>
+                    
+                        <a href="/decision" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+          {% endif %}   
+
+        {% if Cliente != null %}
+          {% for row in Cliente %}
+            <form name="sentMessage" id="contactForm" method="POST">
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls" >
+                         {{ render_field(RegistroCliente.strNombre, class='form-control', value=row.1, maxlength="100") }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strTelefono, class='form-control', value=row.3 , maxlength="10" )}}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strCorreo, class='form-control', type="date", maxlength="50" )}}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strDireccion, class='form-control', type="date", maxlength="250" )}}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="row control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                         {{ render_field(RegistroCliente.strContraseña, class='form-control', type="date", maxlength="10", type="password" )}}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                      <br>
+                <div id="success"></div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-info">Aceptar</button>
+                    
+                        <a href="/decision" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+          {% endif %}   
+          
+          </div>
+      </div>
+  </div>
+
+    <hr>
+{% endblock %} 
+
+

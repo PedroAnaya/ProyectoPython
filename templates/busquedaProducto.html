@@ -1,0 +1,40 @@
+
+{% extends 'base/base.html'%}
+{% block title %} Home  {% endblock %}
+
+{% block body %} 
+
+<link href="/static/css/busqueda.css" rel="stylesheet" >
+<br>
+<br>
+<br>
+<div class="container">
+
+    <hgroup class="mb20">
+		<h1>Resultados de la busqueda</h1>
+	</hgroup>
+
+    <section class="col-xs-12 col-sm-6 col-md-12">
+
+   {% for row in Productos %}
+		<article class="search-result row">
+			<div class="col-xs-12 col-sm-12 col-md-3">
+				<a href="#" title="Lorem ipsum" class="thumbnail"><img src="{{ row.8 }}" alt="Lorem ipsum" /></a>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-2">
+				<ul class="meta-search">
+					<li><i class="glyphicon glyphicon-usd" ></i> <span>Precio: {{ row.3 }}</span></li>
+					<li><i class="glyphicon glyphicon-tasks"></i> <span>Stock: {{ row.4 }}</span></li>
+					<li><i class="glyphicon glyphicon-tags"></i> <span>Marca: {{ row.9 }}</span></li>
+				</ul>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+				<h3><a href="#" title="">{{ row.2 }}</a></h3>
+				<p>{{ row.5 }}</p>						
+			</div>
+			<span class="clearfix borda"></span>
+		</article>		
+  {% endfor %}
+	</section>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+
+{% extends 'base/baseVendedor.html'%}
+{% block title %} Home  {% endblock %}
+
+{% block body %} 
+<link href="/static/css/detailProduct.css" rel="stylesheet">
+<script src="/static/js/productjs.js"></script>
+<br>
+<br>
+<br>
+<br>
+        <div class="container">
+        	<div class="row">
+               <div class="col-xs-4 item-photo">
+               	{% for row in Productos %}
+                    <img style="max-width:100%;" src="/{{ row.8 }}" />
+                 {% endfor %}
+                </div>
+                <div class="col-xs-5" style="border:0px solid gray">
+                    <!-- Datos del vendedor y titulo del producto -->
+                      {% for row in Productos %}
+                    <h3> {{ row.2 }}</h3>    
+                     {% endfor %}
+                     {% for row in Vendedor %}
+                    <h5 style="color:#337ab7">vendido por <a href="#">{{ row.1 }}</a> · <small style="color:#337ab7">(5054 ventas)</small></h5>
+        			{% endfor %}
+                    <!-- Precios -->
+                    <h6 class="title-price"><small>PRECIO VENTA</small></h6>
+                     {% for row in Productos %}
+                    <h3 style="margin-top:0px;">MXN ${{ row.3 }}</h3>
+                    {% endfor %}
+        
+                    <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr"><small>CANTIDAD DISPONIBLE</small></h6>                    
+                        <div>
+                        {% for row in Productos %}
+                            <div class="attr2">{{ row.3 }} PZA. DISPONIBLES</div>
+                        {% endfor %}
+                            
+                        </div>
+                    </div> 
+                      <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr"><small>CATEGORIA</small></h6>                    
+                        <div>
+                        {% for row in CatCategoria %}
+                            <div class="attr2">{{ row.1 }}</div>
+                        {% endfor %}
+                            
+                        </div>
+                    </div> 
+                       <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr"><small>MARCA</small></h6>                    
+                        <div>
+                        {% for row in Productos %}
+                            <div class="attr2">{{ row.9 }}</div>
+                        {% endfor %}
+                            
+                        </div>
+                    </div> 
+                       <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr"><small>MODELO</small></h6>                    
+                        <div>
+                        {% for row in Productos %}
+                            <div class="attr2">{{ row.10 }}</div>
+                        {% endfor %}
+                            
+                        </div>
+                    </div> 
+                                               
+                </div>                              
+        
+                <div class="col-xs-9">
+                    <ul class="menu-items">
+                        <li class="active">Detalle del producto</li>
+                   
+                    </ul>
+                    
+                    <div style="width:100%;border-top:1px solid silver">
+                    	<h3>Decripcion del producto</h3>
+                    	{% for row in Productos %}
+                        <p style="padding:15px;">
+                            <small>
+                            {{ row.5 }}
+                            </small>
+                        </p>
+                         {% endfor %}
+
+                    </div>                   
+                    <div style="width:100%;border-top:1px solid silver">
+                    	 <h3>Contenido del producto</h3>
+                    	{% for row in Productos %}
+                        <p style="padding:15px;">
+                            <small>
+                            {{ row.6 }}
+                            </small>
+                        </p>
+                         {% endfor %}
+
+                    </div>
+                </div>		
+            </div>
+        </div>        
+
+{% endblock %}
