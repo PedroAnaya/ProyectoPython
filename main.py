@@ -43,13 +43,13 @@ app.config['UPLOAD_FOLDER'] = 'static/img/'
 @app.route('/')
 def index():
     valor = "0"
-    session['logged_inC'] = False
-    session['logged_in'] = False
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM Productos")
     rv = cur.fetchall()
     cur.close()
     response = make_response(render_template('home.html', Productos=rv))
+    response.set_cookie('logged_inC',valor)
+    response.set_cookie('logged_in',valor)
     response.set_cookie('idClienteReg',valor)
     response.set_cookie('idSec',valor)
     response.set_cookie('idProduct',valor)
@@ -73,13 +73,13 @@ def errorInesperado():
 @app.route('/Inicio', methods = ['GET', 'POST'])
 def Inicio():
     valor = "0"
-    session['logged_inC'] = False
-    session['logged_in'] = False
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM Productos")
     rv = cur.fetchall()
     cur.close()
     response = make_response(render_template('home.html', Productos=rv))
+    response.set_cookie('logged_inC',valor)
+    response.set_cookie('logged_in',valor)
     response.set_cookie('idClienteReg',valor)
     response.set_cookie('idSec',valor)
     response.set_cookie('idProduct',valor)
@@ -136,9 +136,9 @@ def create():
                 (strCorreo,strContraseña,idven))
             mysql.connection.commit() 
             cur2.close()
-            session['logged_in'] = True
             response = make_response(redirect(url_for('InicioVendedor')))
             response.set_cookie('idVendedorReg',valor)
+            response.set_cookie('logged_in',valor)
             return response
 
         title = "APP Python"     
@@ -153,7 +153,8 @@ def log():
 @app.route('/InicioSecion', methods = ['GET', 'POST'])
 def InicioSecion():
     try:
-        if not session.get('logged_in'):
+        idUsuairo = request.cookies.get('logged_in')
+        if idUsuairo == "0":
             return render_template('login.html')
         else:
             cur = mysql.connection.cursor()
@@ -163,7 +164,7 @@ def InicioSecion():
             cur.close()
             return render_template('InicioVendedor.html', Vendedor=rv)
     except Exception as e:
-         return redirect(url_for('error'))
+        return redirect(url_for('error'))
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
@@ -174,32 +175,29 @@ def do_admin_login():
         cur.execute("SELECT * FROM Usuario WHERE strCorreo=%s and strContraseña=%s ", (usuario,contrasena,))
         rv = cur.fetchall()
         cur.close()
-        if rv:  
-            session['logged_in'] = True
-            idVendedor = rv[0]
+        if rv:                    
             idven = idVendedor[3]
             valor = ''
             valor +=str(idven)
         else:       
-            valor = '0'
-            session['logged_in'] = False
-
+            valor = '0'     
         response = make_response(redirect(url_for('InicioSecion')))
         response.set_cookie('idVendedorReg',valor)    
+        response.set_cookie('logged_in',valor)  
         return response
     except Exception as e:
          return redirect(url_for('error'))
 
 @app.route("/logout")
 def logout():
-    try:       
-        session['logged_in'] = False
+    try:     
         valor = '0'
         response = make_response(redirect(url_for('index')))
         response.set_cookie('idVendedorReg',valor)
+        response.set_cookie('logged_in',valor)
         return response
     except Exception as e:
-         return redirect(url_for('error'))
+        return redirect(url_for('error'))
 
 @app.route('/productos', methods = ['GET', 'POST'])
 def productos():
@@ -376,11 +374,10 @@ def createCliente():
             idVendedor = rv[0]
             idven = idVendedor[0]
             valor = ''
-            valor +=str(idven)   
-
-            session['logged_inC'] = True
+            valor +=str(idven) 
             response = make_response(redirect(url_for('InicioCliente')))
             response.set_cookie('idClienteReg',valor)
+            response.set_cookie('logged_inC',valor)
             return response
 
         title = "APP Python"     
@@ -407,7 +404,8 @@ def InicioCliente():
 @app.route('/InicioSecionC', methods = ['GET', 'POST'])
 def InicioSecionC():
     try:
-        if not session.get('logged_inC'):
+        idUsuario = request.cookies.get('logged_inC')
+        if idUsuario == "0":
             return render_template('loginCliente.html')
         else:
             idsec = request.cookies.get('idSec')
@@ -437,17 +435,15 @@ def do_admin_loginC():
         rv = cur.fetchall()
         cur.close()
         if rv:  
-            session['logged_inC'] = True
             idVendedor = rv[0]
             idven = idVendedor[0]
             valor = ''
             valor +=str(idven)
         else:       
-            valor = '0'
-            session['logged_inC'] = False
-
+            valor = '0'       
         response = make_response(redirect(url_for('InicioSecionC')))
-        response.set_cookie('idClienteReg',valor)    
+        response.set_cookie('idClienteReg',valor)
+        response.set_cookie('logged_inC',valor)    
         return response
     except Exception as e:
          return redirect(url_for('error'))
@@ -455,12 +451,12 @@ def do_admin_loginC():
 @app.route("/logoutC")
 def logoutC():
     try:       
-        session['logged_inC'] = False
         valor = '0'
         response = make_response(redirect(url_for('index')))
         response.set_cookie('idClienteReg',valor)
         response.set_cookie('idSec',valor)
         response.set_cookie('idProduct',valor)
+        response.set_cookie('logged_inC',valor)
         return response
     except Exception as e:
          return redirect(url_for('error'))
